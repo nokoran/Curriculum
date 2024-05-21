@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Curriculum.Enitities.Course
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <h5>Create New Course</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mt-3">
+                <input asp-for="course_name" class="form-control" aria-required="true"/>
+                <label asp-for="course_name">Course Name</label>
+                <span asp-validation-for="course_name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="desc" class="form-control" aria-required="true"/>
+                <label asp-for="desc">Description</label>
+                <span asp-validation-for="course_name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="credit_hours" class="form-control" aria-required="true"/>
+                <label asp-for="credit_hours">Credit Hours</label>
+                <span asp-validation-for="credit_hours" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input type="submit" value="Create" class="btn btn-primary"/> 
+            </div>
+        </form>
+    </div>
+</div>
+

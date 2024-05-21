@@ -1,0 +1,38 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Curriculum.Enitities.Group
+
+@{
+    ViewData["Title"] = "Create Group";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <h5>Create New Group</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="group_name" class="form-control" aria-required="true"/>
+                <label asp-for="group_name">Group Name</label>
+                <span asp-validation-for="group_name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="course_id" class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                    @if (ViewBag.Courses != null)
+                    {
+                        foreach (var item in ViewBag.Courses)
+                        {
+                            <option value="@item.id">@item.course_name</option>
+                        }
+                    }
+                </select>
+                <label asp-for="course_id">Course Name</label>
+                <span asp-validation-for="course_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input type="submit" value="Create" class="btn btn-primary"/> 
+            </div>
+        </form>
+    </div>
+</div>
+

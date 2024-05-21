@@ -1,0 +1,59 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Curriculum.Enitities.Course>
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<style>
+    th {
+        vertical-align: middle;
+    }
+</style>
+
+<h1>Courses</h1>
+
+<p>
+    <a asp-action="Create">Create New Course</a>
+</p>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Course Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Credit Hours
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.course_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.desc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.credit_hours)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

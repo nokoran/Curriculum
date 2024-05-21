@@ -1,0 +1,24 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IdentityRole
+@{
+    ViewData["Title"] = "Delete Role";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="DeleteConfirmed">
+            <h5>Delete Role</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mt-3">
+                <input asp-for="Name" class="form-control" disabled aria-required="true"/>
+                <label asp-for="Name"></label>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Id" /> <!-- Add this line -->
+            <div class="form-floating mt-3">
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        </form>
+    </div>
+</div>
