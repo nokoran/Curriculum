@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Course> Courses { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
+    public DbSet<Subject> Subjects { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Change> Changes { get; set; }
     
@@ -46,6 +47,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         });
         
         modelBuilder.Entity<Change>(entity =>
+        {
+            entity.Property(e => e.id)
+                .ValueGeneratedOnAdd();
+        });
+        
+        modelBuilder.Entity<Subject>(entity =>
         {
             entity.Property(e => e.id)
                 .ValueGeneratedOnAdd();

@@ -1,0 +1,38 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Curriculum.Entities.Subject
+@{
+    ViewData["Title"] = "Edit Subject";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="EditConfirmed">
+            <h5>Edit Subject</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mt-3">
+                <input asp-for="subject_name" class="form-control" aria-required="true"/>
+                <label asp-for="subject_name">Subject Name</label>
+                <span asp-validation-for="subject_name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="course_id" class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                    @if (ViewBag.Courses != null)
+                    {
+                    foreach (var item in ViewBag.Courses)
+                    {
+                    <option value="@item.id">@item.course_name</option>
+                    }
+                    }
+                </select>
+                <label asp-for="course_id">Course Name</label>
+                <span asp-validation-for="course_id" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="id" /> <!-- Add this line -->
+            <div class="form-floating mt-3">
+                <input type="submit" value="Edit" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
