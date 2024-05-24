@@ -109,5 +109,12 @@ namespace Curriculum.Controllers
             }
             return RedirectToAction("Index");
         }
+        
+        [HttpGet]
+        public JsonResult GetGroupsByCourseId(Guid courseId)
+        {
+            var groups = _groupRepository.GetByCourseIdAsync(courseId).GetAwaiter().GetResult();
+            return Json(groups);
+        }
     }
 }

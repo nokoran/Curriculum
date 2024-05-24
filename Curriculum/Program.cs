@@ -24,6 +24,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<GroupRepository>();
 builder.Services.AddScoped<TeacherRepository>();
+builder.Services.AddScoped<SubjectRepository>();
+builder.Services.AddScoped<ScheduleRepository>();
 
 var app = builder.Build();
 

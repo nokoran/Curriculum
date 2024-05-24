@@ -15,6 +15,7 @@ using Curriculum.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Curriculum.Models;
+using Curriculum.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +35,10 @@ namespace Curriculum.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ApplicationDbContext _context;
-
+        private readonly CourseRepository _courseRepository;
+        private readonly GroupRepository _groupRepository;
+        private readonly TeacherRepository _teacherRepository;
+        
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
@@ -43,16 +46,20 @@ namespace Curriculum.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext context)
+            CourseRepository courseRepository,
+            GroupRepository groupRepository,
+            TeacherRepository teacherRepository)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
-            _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
-            _context = context;
+            _courseRepository = courseRepository;
+            _groupRepository = groupRepository;
+            _teacherRepository = teacherRepository;
         }
 
         /// <summary>
@@ -114,11 +121,11 @@ namespace Curriculum.Areas.Identity.Pages.Account
             
             public Guid CourseId { get; set; }
             public Guid GroupId { get; set; }
-            public IEnumerable<SelectListItem> CourseIdList { get; set; }
-            public IEnumerable<SelectListItem> GroupIdList { get; set; }
+            public Guid teacher_id { get; set; } 
             
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
+            public IEnumerable<Course> CourseIdList { get; set; } = new List<Course>();
+            public IEnumerable<Group> GroupIdList { get; set; } = new List<Group>();
+            public IEnumerable<Teacher> TeacherIdList { get; set; } = new List<Teacher>();
         }
 
 
@@ -129,9 +136,11 @@ namespace Curriculum.Areas.Identity.Pages.Account
             
             Input = new InputModel
             {
-                RolesList = _roleManager.Roles/*.Where(y => y.Name != "Administrator")*/.Select(x => new SelectListItem(x.Name, x.Name)),
-                CourseIdList = _context.Courses.Select(x => new SelectListItem(x.course_name, x.course_name)),
-                GroupIdList = _context.Groups.Select(x => new SelectListItem(x.group_name, x.group_name))
+                RolesList = _roleManager.Roles.Where(y => y.Name != "Administrator").Select(x => new SelectListItem(x.Name, x.Name)),
+                
+                CourseIdList = _courseRepository.GetAllAsync().GetAwaiter().GetResult().ToList(),
+                GroupIdList = _groupRepository.GetAllAsync().GetAwaiter().GetResult().ToList(),
+                TeacherIdList = _teacherRepository.GetAllAsync().GetAwaiter().GetResult().ToList()
             };
         }
 
@@ -142,8 +151,7 @@ namespace Curriculum.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
+                user.teacher_id = Input.teacher_id;
                 user.CourseId = Input.CourseId;
                 user.GroupId = Input.GroupId;
                 
@@ -185,6 +193,12 @@ namespace Curriculum.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            Input.RolesList = _roleManager.Roles.Where(y => y.Name != "Administrator")
+                .Select(x => new SelectListItem(x.Name, x.Name));
+
+            Input.CourseIdList = _courseRepository.GetAllAsync().GetAwaiter().GetResult().ToList();
+            Input.GroupIdList = _groupRepository.GetAllAsync().GetAwaiter().GetResult().ToList();
+            Input.TeacherIdList = _teacherRepository.GetAllAsync().GetAwaiter().GetResult().ToList();
             return Page();
         }
 

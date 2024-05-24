@@ -26,6 +26,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="Views\Subjects\Create.cshtml" />
+      <AdditionalFiles Include="Views\Subjects\Delete.cshtml" />
+      <AdditionalFiles Include="Views\Subjects\Edit.cshtml" />
+      <AdditionalFiles Include="Views\Subjects\Index.cshtml" />
       <AdditionalFiles Include="Views\Teachers\Create.cshtml" />
       <AdditionalFiles Include="Views\Teachers\Delete.cshtml" />
       <AdditionalFiles Include="Views\Teachers\Edit.cshtml" />

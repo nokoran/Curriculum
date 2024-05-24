@@ -17,7 +17,7 @@ namespace Curriculum.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.5");
 
-            modelBuilder.Entity("Curriculum.Enitities.ApplicationUser", b =>
+            modelBuilder.Entity("Curriculum.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -29,7 +29,7 @@ namespace Curriculum.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("CourseId")
+                    b.Property<Guid?>("CourseId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -39,15 +39,7 @@ namespace Curriculum.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("GroupId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
+                    b.Property<Guid?>("GroupId")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
@@ -83,6 +75,9 @@ namespace Curriculum.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid?>("teacher_id")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -95,7 +90,7 @@ namespace Curriculum.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Curriculum.Enitities.Change", b =>
+            modelBuilder.Entity("Curriculum.Entities.Change", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -119,7 +114,7 @@ namespace Curriculum.Migrations
                     b.ToTable("Changes");
                 });
 
-            modelBuilder.Entity("Curriculum.Enitities.Course", b =>
+            modelBuilder.Entity("Curriculum.Entities.Course", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +136,7 @@ namespace Curriculum.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("Curriculum.Enitities.Group", b =>
+            modelBuilder.Entity("Curriculum.Entities.Group", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -159,7 +154,7 @@ namespace Curriculum.Migrations
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("Curriculum.Enitities.Schedule", b =>
+            modelBuilder.Entity("Curriculum.Entities.Schedule", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -181,6 +176,9 @@ namespace Curriculum.Migrations
                     b.Property<DateTime>("start_time")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("subject_id")
+                        .HasColumnType("TEXT");
+
                     b.Property<Guid>("teacher_id")
                         .HasColumnType("TEXT");
 
@@ -189,7 +187,25 @@ namespace Curriculum.Migrations
                     b.ToTable("Schedules");
                 });
 
-            modelBuilder.Entity("Curriculum.Enitities.Teachers", b =>
+            modelBuilder.Entity("Curriculum.Entities.Subject", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("course_id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("subject_name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Subjects");
+                });
+
+            modelBuilder.Entity("Curriculum.Entities.Teacher", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -347,7 +363,7 @@ namespace Curriculum.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Curriculum.Enitities.ApplicationUser", null)
+                    b.HasOne("Curriculum.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -356,7 +372,7 @@ namespace Curriculum.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Curriculum.Enitities.ApplicationUser", null)
+                    b.HasOne("Curriculum.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -371,7 +387,7 @@ namespace Curriculum.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Curriculum.Enitities.ApplicationUser", null)
+                    b.HasOne("Curriculum.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -380,7 +396,7 @@ namespace Curriculum.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Curriculum.Enitities.ApplicationUser", null)
+                    b.HasOne("Curriculum.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

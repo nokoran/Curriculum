@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Linq;
 using Curriculum.Entities;
 using Curriculum.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Curriculum.Controllers
 {
+    [Authorize (Roles = "Administrator")]
     public class TeachersController : Controller
     {
         private readonly TeacherRepository _teacherRepository;

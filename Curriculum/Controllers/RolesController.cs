@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Curriculum.Controllers
 {
-    //[Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator")]
     public class RolesController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;

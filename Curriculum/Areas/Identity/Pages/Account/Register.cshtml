@@ -14,16 +14,6 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.FirstName" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.FirstName">First Name</label>
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.LastName" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.LastName">Last Name</label>
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
@@ -40,13 +30,47 @@
             </div>
 
             <div class="form-floating mb-3">
-                <select asp-for="Input.Role" class="form-select" asp-items="@Model.Input.RolesList" aria-required="true">
+                <select id="roleSelect" asp-for="Input.Role" class="form-select" asp-items="@Model.Input.RolesList" aria-required="true">
                     <option disabled selected></option>
                 </select>
                 <label asp-for="Input.Role">Role</label>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
+            <div id="studentSelects" style="display: none;">
+                <div class="form-floating mb-3">
+                    <select id="courseSelect" asp-for="Input.CourseId" class="form-select" aria-required="true">
+                        <option disabled selected value="@null"></option>
+                        @foreach (var course in Model.Input.CourseIdList)
+                        {
+                            <option value="@course.id">@course.course_name</option>
+                        }
+                    </select>
+                    <label asp-for="Input.CourseId">Course</label>
+                    <span asp-validation-for="Input.CourseId" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <select id="groupSelect" asp-for="Input.GroupId" class="form-select" aria-required="true">
+                        <option disabled selected value="@null"></option>
+                    </select>
+                    <label asp-for="Input.GroupId">Group</label>
+                    <span asp-validation-for="Input.GroupId" class="text-danger"></span>
+                </div>
+            </div>
 
+            <div id="teacherSelect" style="display: none;">
+                <div class="form-floating mb-3">
+                    <select id="courseSelect" asp-for="Input.teacher_id" class="form-select" aria-required="true">
+                        <option disabled selected value="@null"></option>
+                        @foreach (var course in Model.Input.TeacherIdList)
+                        {
+                        <option value="@course.id">@course.full_name</option>
+                        }
+                    </select>
+                    <label asp-for="Input.teacher_id">Course</label>
+                    <span asp-validation-for="Input.teacher_id" class="text-danger"></span>
+                </div>
+            </div>
+            
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
@@ -85,18 +109,37 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#Input_CourseId').change(function () {
-                var courseId = $(this).val();
-                $.getJSON('/GroupController/GetGroupsByCourseIdJson', { courseId: courseId }, function (groups) {
-                    var groupSelect = $('#Input_GroupId');
-                    groupSelect.empty();
-                    groupSelect.append($('<option></option>').attr('value', '').text('Select a group'));
-                    $.each(groups, function (index, group) {
-                        groupSelect.append($('<option></option>').attr('value', group.Id).text(group.Name));
+            $('#courseSelect').change(function () {
+                var selectedCourseId = $(this).val();
+                if (selectedCourseId) {
+                    $.getJSON('/Groups/GetGroupsByCourseId', { courseId: selectedCourseId }, function (data) {
+                        var groupDropdown = $('#groupSelect');
+                        groupDropdown.empty();
+                        $.each(data, function (index, item) {
+                            groupDropdown.append($('<option></option>').val(item.id).text(item.group_name));
+                        });
                     });
-                });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#roleSelect').change(function () {
+                var selectedRole = $(this).val();
+                if (selectedRole === 'Student') {
+                    $('#studentSelects').show();
+                    $('#teacherSelect').hide();
+                } else if (selectedRole === 'Teacher') {
+                    $('#teacherSelect').show();
+                    $('#studentSelects').hide();
+                } else {
+                    $('#studentSelects').hide();
+                    $('#teacherSelect').hide();
+                }
             });
         });
     </script>
