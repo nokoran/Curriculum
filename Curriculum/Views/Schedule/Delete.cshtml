@@ -1,0 +1,53 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Curriculum.Entities.Schedule
+@{
+    ViewData["Title"] = "Delete Schedule Entry";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="DeleteConfirmed">
+            <h5>Delete Schedule Entry</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mt-3">
+                <input value="@ViewBag.SubjectName" class="form-control" disabled aria-required="true"/>
+                <label asp-for="subject_id">Subject Name</label>
+                <span asp-validation-for="subject_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input value="@ViewBag.TeacherName" class="form-control" disabled aria-required="true"/>
+                <label asp-for="teacher_id">Teacher Name</label>
+                <span asp-validation-for="teacher_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input value="@ViewBag.CourseName" class="form-control" disabled aria-required="true"/>
+                <label asp-for="course_id">Course Name</label>
+                <span asp-validation-for="course_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input value="@ViewBag.GroupName" class="form-control" disabled aria-required="true"/>
+                <label asp-for="group_id">Group Name</label>
+                <span asp-validation-for="group_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="place" class="form-control" disabled aria-required="true"/>
+                <label asp-for="place">Place</label>
+                <span asp-validation-for="place" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="start_time" type="datetime-local" class="form-control" disabled aria-required="true"/>
+                <label asp-for="start_time">Start Time</label>
+                <span asp-validation-for="start_time" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="end_time" type="datetime-local" class="form-control" disabled aria-required="true"/>
+                <label asp-for="end_time">End Time</label>
+                <span asp-validation-for="end_time" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-floating mt-3">
+                <input type="submit" value="Delete" class="btn btn-danger"/>
+            </div>
+        </form>
+    </div>
+</div>

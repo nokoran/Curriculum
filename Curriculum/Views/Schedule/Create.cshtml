@@ -1,0 +1,117 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Curriculum.Models.BCreateSchedule
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <h5>Create New Schedule Entry</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mt-3">
+                <select asp-for="subject_id" class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                    @if (ViewBag.Subjects != null)
+                    {
+                        foreach (var item in ViewBag.Subjects)
+                        {
+                            <option value="@item.id">@item.subject_name</option>
+                        }
+                    }
+                </select>
+                <label asp-for="course_id">Subject Name</label>
+                <span asp-validation-for="subject_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="teacher_id" class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                    @if (ViewBag.Teachers != null)
+                    {
+                    foreach (var item in ViewBag.Teachers)
+                    {
+                    <option value="@item.id">@item.full_name</option>
+                    }
+                    }
+                </select>
+                <label asp-for="course_id">Teacher Name</label>
+                <span asp-validation-for="subject_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="course_id" id="courseDropdown" class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                    @if (ViewBag.Courses != null)
+                    {
+                        foreach (var item in ViewBag.Courses)
+                        {
+                            <option value="@item.id">@item.course_name</option>
+                        }
+                    }
+                </select>
+                <label asp-for="course_id">Course Name</label>
+                <span asp-validation-for="course_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="group_id" id="groupDropdown" class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                </select>
+                <label asp-for="group_id">Group Name</label>
+                <span asp-validation-for="group_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="place" class="form-control" placeholder="Place" required/>
+                <label asp-for="place">Place</label>
+                <span asp-validation-for="place" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="start_time" class="form-control" placeholder="Start Time" type="time" required/>
+                <label asp-for="start_time"></label>
+                <span asp-validation-for="start_time" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="end_time" class="form-control" placeholder="End Time" type="time" required/>
+                <label asp-for="end_time"></label>
+                <span asp-validation-for="end_time" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="start_date" class="form-control" placeholder="Start Date" type="date" required/>
+                <label asp-for="start_date"></label>
+                <span asp-validation-for="start_date" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="end_date" class="form-control" placeholder="End Date" type="date" required/>
+                <label asp-for="end_date"></label>
+                <span asp-validation-for="end_date" class="text-danger"></span>
+            </div>
+            <div class="form-check mt-3">
+                <input asp-for="is_alternating" class="form-check-input" type="checkbox"/>
+                <label asp-for="is_alternating" class="form-check-label">Is Alternating</label>
+            </div>
+            <div class="form-floating mt-3">
+                <input type="submit" value="Create" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#courseDropdown').change(function () {
+                var selectedCourseId = $(this).val();
+                if (selectedCourseId) {
+                    $.getJSON('/Groups/GetGroupsByCourseId', { courseId: selectedCourseId }, function (data) {
+                        var groupDropdown = $('#groupDropdown');
+                        groupDropdown.empty();
+                        $.each(data, function (index, item) {
+                            groupDropdown.append($('<option></option>').val(item.id).text(item.group_name));
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+}

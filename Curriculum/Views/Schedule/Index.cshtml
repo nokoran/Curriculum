@@ -1,0 +1,98 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Curriculum.Models.BSchedule>
+@{
+    ViewData["Title"] = "Schedule";
+}
+
+<style>
+    .card {
+        margin-bottom: 20px;
+    }
+</style>
+
+<h1>Schedule</h1>
+
+@if(User.IsInRole("Administrator"))
+{
+    <p>
+        <a asp-action="Create">Create New Schedule Entry</a>
+    </p>
+}
+
+@if (User.IsInRole("Student") || User.IsInRole("Teacher"))
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            if (item.end_time > DateTime.Now)
+            {
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.subject_name</h5>
+                            <p class="card-text">
+                                <strong>Teacher:</strong> @item.teacher_name <br/>
+                                <strong>Course:</strong> @item.course_name <br/>
+                                <strong>Group:</strong> @item.group_name <br/>
+                                <strong>Place:</strong>
+                                @if (Uri.IsWellFormedUriString(item.place, UriKind.Absolute))
+                                {
+                                    <a href="@item.place">Link</a>
+                                }
+                                else
+                                {
+                                    @item.place
+                                }
+                                <br/>
+                                <strong>Start:</strong> @item.start_time.ToString("dd-MM-yyyy HH:mm") <br/>
+                                <strong>End:</strong> @item.end_time.ToString("dd-MM-yyyy HH:mm") <br/>
+                            </p>
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-primary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.subject_name</h5>
+                        <p class="card-text">
+                            <strong>Teacher:</strong> @item.teacher_name <br/>
+                            <strong>Course:</strong> @item.course_name <br/>
+                            <strong>Group:</strong> @item.group_name <br/>
+                            <strong>Place:</strong>
+                            @if (Uri.IsWellFormedUriString(item.place, UriKind.Absolute))
+                            {
+                                <a href="@item.place">Link</a>
+                            }
+                            else
+                            {
+                                @item.place
+                            }
+                            <br/>
+                            <strong>Start:</strong> @item.start_time.ToString("dd-MM-yyyy HH:mm") <br/>
+                            <strong>End:</strong> @item.end_time.ToString("dd-MM-yyyy HH:mm") <br/>
+                        </p>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.id" class="btn btn-primary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.id" class="btn btn-danger">Delete</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
