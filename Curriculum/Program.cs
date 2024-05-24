@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Curriculum.Data;
-using Curriculum.Enitities;
+using Curriculum.Entities;
 using Curriculum.Models;
 using Curriculum.Repositories;
 
@@ -23,6 +23,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<GroupRepository>();
+builder.Services.AddScoped<TeacherRepository>();
 
 var app = builder.Build();
 

@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Curriculum.Enitities;
+using Curriculum.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Curriculum.Models;
 using Microsoft.AspNetCore.Authorization;

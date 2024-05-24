@@ -1,4 +1,4 @@
-﻿namespace Curriculum.Enitities;
+﻿namespace Curriculum.Entities;
 
 public class Course : IBaseEntity
 {

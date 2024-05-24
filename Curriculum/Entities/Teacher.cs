@@ -1,6 +1,6 @@
-﻿namespace Curriculum.Enitities;
+﻿namespace Curriculum.Entities;
 
-public class Teachers : IBaseEntity
+public class Teacher : IBaseEntity
 {
     public Guid id { get; set; }
     public string full_name { get; set; }

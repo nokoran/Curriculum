@@ -4,101 +4,98 @@ using Curriculum.Models;
 using Curriculum.Data;
 using System.Threading.Tasks;
 using System.Linq;
-using Curriculum.Enitities;
+using Curriculum.Entities;
+using Curriculum.Repositories;
 
 namespace Curriculum.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TeachersController : ControllerBase
+    public class TeachersController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public TeachersController(ApplicationDbContext context)
+        private readonly TeacherRepository _teacherRepository;
+        
+        public TeachersController(TeacherRepository teacherRepository)
         {
-            _context = context;
+            _teacherRepository = teacherRepository;
         }
+        
 
-        // GET: api/Teachers
+        // GET: CoursesController
+        public ActionResult Index()
+        {
+            var teachers = _teacherRepository.GetAllAsync().GetAwaiter().GetResult();
+            return View(teachers);
+        }
+        
+        // GET: RolesController
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teachers>>> GetTeachers()
+        public ActionResult Create()
         {
-            return await _context.Teachers.ToListAsync();
+            return View(new Teacher());
         }
 
-        // GET: api/Teachers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Teachers>> GetTeacher(int id)
-        {
-            var teacher = await _context.Teachers.FindAsync(id);
-
-            if (teacher == null)
-            {
-                return NotFound();
-            }
-
-            return teacher;
-        }
-
-        // PUT: api/Teachers/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTeacher(Guid id, Teachers teacher)
-        {
-            if (id != teacher.id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(teacher).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TeacherExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Teachers
+        // POST: RolesController
         [HttpPost]
-        public async Task<ActionResult<Teachers>> PostTeacher(Teachers teacher)
+        public ActionResult Create(Teacher teacher)
         {
-            _context.Teachers.Add(teacher);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTeacher", new { id = teacher.id }, teacher);
+            if(!_teacherRepository.ExistsByNameAsync(teacher.full_name).GetAwaiter().GetResult())
+            {
+                _teacherRepository.AddAsync(teacher).GetAwaiter().GetResult();
+                return RedirectToAction("Index");
+            }
+            
+            return RedirectToAction("Index");
+        }
+        
+        // GET: RolesController/Edit/5
+        [HttpGet]
+        public ActionResult Edit(Guid id)
+        {
+            var course = _teacherRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
         }
 
-        // DELETE: api/Teachers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeacher(int id)
+        // POST: RolesController/EditConfirmed/5
+        [HttpPost]
+        public ActionResult EditConfirmed(Guid id, Teacher teacher)
         {
-            var teacher = await _context.Teachers.FindAsync(id);
+            var existingTeacher = _teacherRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            if (existingTeacher != null)
+            {
+                existingTeacher.full_name = teacher.full_name;
+                existingTeacher.desc = teacher.desc;
+                _teacherRepository.UpdateAsync(existingTeacher).GetAwaiter().GetResult();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+        
+        // GET: RolesController/Delete/5
+        [HttpGet]
+        public ActionResult Delete(Guid id)
+        {
+            var teacher = _teacherRepository.GetByIdAsync(id).GetAwaiter().GetResult();
             if (teacher == null)
             {
                 return NotFound();
             }
-
-            _context.Teachers.Remove(teacher);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return View(teacher);
         }
 
-        private bool TeacherExists(Guid id)
+        // POST: RolesController/DeleteConfirmed/5
+        [HttpPost]
+        public ActionResult DeleteConfirmed(Guid id)
         {
-            return _context.Teachers.Any(e => e.id == id);
+            var teacher = _teacherRepository.GetByIdAsync(id).GetAwaiter().GetResult();
+            if (teacher != null)
+            {
+                _teacherRepository.DeleteAsync(teacher.id).GetAwaiter().GetResult();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

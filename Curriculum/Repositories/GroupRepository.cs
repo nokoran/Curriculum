@@ -1,5 +1,5 @@
 ﻿using Curriculum.Data;
-using Curriculum.Enitities;
+using Curriculum.Entities;
 using Curriculum.Models;
 using Microsoft.EntityFrameworkCore;
 

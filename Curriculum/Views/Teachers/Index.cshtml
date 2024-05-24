@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model IEnumerable<Curriculum.Entities.Course>
+@model IEnumerable<Curriculum.Entities.Teacher>
 @{
-    ViewData["Title"] = "Courses";
+    ViewData["Title"] = "Teachers";
 }
 
 <style>
@@ -10,10 +10,10 @@
     }
 </style>
 
-<h1>Courses</h1>
+<h1>Teachers</h1>
 
 <p>
-    <a asp-action="Create">Create New Course</a>
+    <a asp-action="Create">Create New Teacher</a>
 </p>
 
 <table class="table table-bordered">
@@ -23,13 +23,10 @@
                 Id
             </th>
             <th>
-                Course Name
+                Teacher Name
             </th>
             <th>
                 Description
-            </th>
-            <th>
-                Credit Hours
             </th>
         </tr>
     </thead>
@@ -41,13 +38,10 @@
                     @Html.DisplayFor(modelitem => item.id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelitem => item.course_name)
+                    @Html.DisplayFor(modelitem => item.full_name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelitem => item.desc)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelitem => item.credit_hours)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |

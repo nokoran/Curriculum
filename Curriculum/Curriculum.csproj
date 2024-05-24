@@ -25,4 +25,11 @@
       <Folder Include="Views\Roles\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Teachers\Create.cshtml" />
+      <AdditionalFiles Include="Views\Teachers\Delete.cshtml" />
+      <AdditionalFiles Include="Views\Teachers\Edit.cshtml" />
+      <AdditionalFiles Include="Views\Teachers\Index.cshtml" />
+    </ItemGroup>
+
 </Project>

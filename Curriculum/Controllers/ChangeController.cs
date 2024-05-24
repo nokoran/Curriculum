@@ -4,7 +4,7 @@ using Curriculum.Models;
 using Curriculum.Data;
 using System.Threading.Tasks;
 using System.Linq;
-using Curriculum.Enitities;
+using Curriculum.Entities;
 
 namespace Curriculum.Controllers
 {

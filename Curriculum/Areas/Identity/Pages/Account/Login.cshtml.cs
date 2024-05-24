@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Curriculum.Enitities;
+using Curriculum.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Curriculum.Models;
 using Microsoft.AspNetCore.Authentication;

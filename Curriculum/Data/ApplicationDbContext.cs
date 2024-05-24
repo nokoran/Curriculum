@@ -1,4 +1,4 @@
-﻿using Curriculum.Enitities;
+﻿using Curriculum.Entities;
 using Curriculum.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Course> Courses { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
-    public DbSet<Teachers> Teachers { get; set; }
+    public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Change> Changes { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .ValueGeneratedOnAdd();
         });
         
-        modelBuilder.Entity<Teachers>(entity =>
+        modelBuilder.Entity<Teacher>(entity =>
         {
             entity.Property(e => e.id)
                 .ValueGeneratedOnAdd();
