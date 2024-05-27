@@ -17,6 +17,11 @@ public class SubjectRepository : IRepository<Subject>
     {
     return await _context.Subjects.FindAsync(id);
     }
+    
+    public async Task<IEnumerable<Subject>> GetByCourseIdAsync(Guid id)
+    {
+        return await _context.Subjects.Where(e => e.course_id == id).ToListAsync();
+    }
 
     public async Task<IEnumerable<Subject>> GetAllAsync()
     {

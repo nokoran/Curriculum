@@ -10,15 +10,29 @@
             <h5>Create New Schedule Entry</h5>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating mt-3">
-                <select asp-for="subject_id" class="form-select" aria-required="true">
-                    <option disabled selected></option>
-                    @if (ViewBag.Subjects != null)
+                <select asp-for="course_id" id="courseDropdown" class="form-select" aria-required="true">
+                    
+                    @if (ViewBag.Courses != null)
                     {
-                        foreach (var item in ViewBag.Subjects)
-                        {
-                            <option value="@item.id">@item.subject_name</option>
-                        }
+                    foreach (var item in ViewBag.Courses)
+                    {
+                    <option value="@item.id">@item.course_name</option>
                     }
+                    }
+                </select>
+                <label asp-for="course_id">Course Name</label>
+                <span asp-validation-for="course_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="group_id" id="groupDropdown" disabled class="form-select" aria-required="true">
+                    <option disabled selected></option>
+                </select>
+                <label asp-for="group_id">Group Name</label>
+                <span asp-validation-for="group_id" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="subject_id" id="subjectDropdown" disabled class="form-select" aria-required="true">
+                    <option disabled selected></option>
                 </select>
                 <label asp-for="course_id">Subject Name</label>
                 <span asp-validation-for="subject_id" class="text-danger"></span>
@@ -36,27 +50,6 @@
                 </select>
                 <label asp-for="course_id">Teacher Name</label>
                 <span asp-validation-for="subject_id" class="text-danger"></span>
-            </div>
-            <div class="form-floating mt-3">
-                <select asp-for="course_id" id="courseDropdown" class="form-select" aria-required="true">
-                    <option disabled selected></option>
-                    @if (ViewBag.Courses != null)
-                    {
-                        foreach (var item in ViewBag.Courses)
-                        {
-                            <option value="@item.id">@item.course_name</option>
-                        }
-                    }
-                </select>
-                <label asp-for="course_id">Course Name</label>
-                <span asp-validation-for="course_id" class="text-danger"></span>
-            </div>
-            <div class="form-floating mt-3">
-                <select asp-for="group_id" id="groupDropdown" class="form-select" aria-required="true">
-                    <option disabled selected></option>
-                </select>
-                <label asp-for="group_id">Group Name</label>
-                <span asp-validation-for="group_id" class="text-danger"></span>
             </div>
             <div class="form-floating mt-3">
                 <input asp-for="place" class="form-control" placeholder="Place" required/>
@@ -100,6 +93,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('#courseDropdown').val('');
             $('#courseDropdown').change(function () {
                 var selectedCourseId = $(this).val();
                 if (selectedCourseId) {
@@ -109,7 +103,20 @@
                         $.each(data, function (index, item) {
                             groupDropdown.append($('<option></option>').val(item.id).text(item.group_name));
                         });
+                        groupDropdown.val('');
                     });
+
+                    $.getJSON('/Subjects/GetSubjectsByCourseId', { courseId: selectedCourseId }, function (data) {
+                        var subjectDropdown = $('#subjectDropdown');
+                        subjectDropdown.empty();
+                        $.each(data, function (index, item) {
+                            subjectDropdown.append($('<option></option>').val(item.id).text(item.subject_name));
+                        });
+                        subjectDropdown.val('');
+                    });
+                    
+                    $('#groupDropdown').prop('disabled', false);
+                    $('#subjectDropdown').prop('disabled', false);
                 }
             });
         });

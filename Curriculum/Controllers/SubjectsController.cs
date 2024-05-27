@@ -101,4 +101,10 @@ public class SubjectsController : Controller
         }
         return RedirectToAction("Index");
     }
+    
+    public JsonResult GetSubjectsByCourseId(Guid courseId)
+    {
+        var subjects = _subjectRepository.GetByCourseIdAsync(courseId).GetAwaiter().GetResult();
+        return Json(subjects);
+    }
 }

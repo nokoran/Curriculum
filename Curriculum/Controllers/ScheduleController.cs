@@ -74,13 +74,9 @@ namespace Curriculum.Controllers
         public ActionResult Create()
         {
             var courses = _courseRepository.GetAllAsync().GetAwaiter().GetResult();
-            var subjects = _subjectRepository.GetAllAsync().GetAwaiter().GetResult();
             var teachers = _teacherRepository.GetAllAsync().GetAwaiter().GetResult();
-            var groups = _groupRepository.GetAllAsync().GetAwaiter().GetResult();
             ViewBag.Courses = courses;
-            ViewBag.Subjects = subjects;
             ViewBag.Teachers = teachers;
-            ViewBag.Groups = groups;
             return View();
         }
 
