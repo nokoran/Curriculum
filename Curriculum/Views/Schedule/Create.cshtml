@@ -42,18 +42,35 @@
                     <option disabled selected></option>
                     @if (ViewBag.Teachers != null)
                     {
-                    foreach (var item in ViewBag.Teachers)
-                    {
-                    <option value="@item.id">@item.full_name</option>
-                    }
+                        foreach (var item in ViewBag.Teachers)
+                        {
+                            <option value="@item.id">@item.full_name</option>
+                        }
                     }
                 </select>
                 <label asp-for="course_id">Teacher Name</label>
                 <span asp-validation-for="subject_id" class="text-danger"></span>
             </div>
-            <div class="form-floating mt-3">
-                <input asp-for="place" class="form-control" placeholder="Place" required/>
+            <div class="form-check mt-3">
+                <input id="onlineClassCheckbox" class="form-check-input" type="checkbox"/>
+                <label for="onlineClassCheckbox" class="form-check-label">Online Class</label>
+            </div>
+            <div class="form-floating mt-3" id="placeDropdownContainer">
+                <select asp-for="place" id="roomsDropdown" class="form-select" aria-required="true">
+                    @if (ViewBag.Rooms != null)
+                    {
+                        foreach (var item in ViewBag.Rooms)
+                        {
+                            <option value="@item.id">@item.name</option>
+                        }
+                    }
+                </select>
                 <label asp-for="place">Place</label>
+                <span asp-validation-for="place" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3" id="placeTextboxContainer" style="display: none;">
+                <input asp-for="place" class="form-control" placeholder="Online Class Link" required/>
+                <label asp-for="place">Online Class Link</label>
                 <span asp-validation-for="place" class="text-danger"></span>
             </div>
             <div class="form-floating mt-3">
@@ -94,6 +111,8 @@
     <script>
         $(document).ready(function () {
             $('#courseDropdown').val('');
+            $('#roomsDropdown').val('');
+            
             $('#courseDropdown').change(function () {
                 var selectedCourseId = $(this).val();
                 if (selectedCourseId) {
@@ -117,6 +136,17 @@
                     
                     $('#groupDropdown').prop('disabled', false);
                     $('#subjectDropdown').prop('disabled', false);
+                }
+            });
+            $('#onlineClassCheckbox').change(function () {
+                if ($(this).is(':checked')) {
+                    // If the checkbox is checked, hide the dropdown and show the textbox.
+                    $('#placeDropdownContainer').hide();
+                    $('#placeTextboxContainer').show();
+                } else {
+                    // If the checkbox is unchecked, show the dropdown and hide the textbox.
+                    $('#placeDropdownContainer').show();
+                    $('#placeTextboxContainer').hide();
                 }
             });
         });

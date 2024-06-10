@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Curriculum.Models;
 using Curriculum.Data;
@@ -101,4 +101,4 @@ namespace Curriculum.Controllers
             return _context.Changes.Any(e => e.id == id);
         }
     }
-}
+}*/

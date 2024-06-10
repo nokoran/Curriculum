@@ -1,0 +1,50 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<Curriculum.Entities.Room>
+@{
+    ViewData["Title"] = "Rooms";
+}
+
+<style>
+    th {
+        vertical-align: middle;
+    }
+</style>
+
+<h1>Rooms</h1>
+
+<p>
+    <a asp-action="Create">Create New Room</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Room Name
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelitem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelitem => item.name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

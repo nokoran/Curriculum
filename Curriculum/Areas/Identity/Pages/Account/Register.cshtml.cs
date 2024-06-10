@@ -136,7 +136,7 @@ namespace Curriculum.Areas.Identity.Pages.Account
             
             Input = new InputModel
             {
-                RolesList = _roleManager.Roles.Where(y => y.Name != "Administrator").Select(x => new SelectListItem(x.Name, x.Name)),
+                RolesList = _roleManager.Roles/*.Where(y => y.Name != "Administrator")*/.Select(x => new SelectListItem(x.Name, x.Name)),
                 
                 CourseIdList = _courseRepository.GetAllAsync().GetAwaiter().GetResult().ToList(),
                 GroupIdList = _groupRepository.GetAllAsync().GetAwaiter().GetResult().ToList(),

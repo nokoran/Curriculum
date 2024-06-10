@@ -26,6 +26,7 @@ builder.Services.AddScoped<GroupRepository>();
 builder.Services.AddScoped<TeacherRepository>();
 builder.Services.AddScoped<SubjectRepository>();
 builder.Services.AddScoped<ScheduleRepository>();
+builder.Services.AddScoped<RoomRepository>();
 
 var app = builder.Build();
 

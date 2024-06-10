@@ -16,8 +16,9 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
-    public DbSet<Change> Changes { get; set; }
-    
+    //public DbSet<Change> Changes { get; set; }
+    public DbSet<Room> Rooms { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -46,13 +47,19 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
                 .ValueGeneratedOnAdd();
         });
         
-        modelBuilder.Entity<Change>(entity =>
+        // modelBuilder.Entity<Change>(entity =>
+        // {
+        //     entity.Property(e => e.id)
+        //         .ValueGeneratedOnAdd();
+        // });
+        
+        modelBuilder.Entity<Subject>(entity =>
         {
             entity.Property(e => e.id)
                 .ValueGeneratedOnAdd();
         });
         
-        modelBuilder.Entity<Subject>(entity =>
+        modelBuilder.Entity<Room>(entity =>
         {
             entity.Property(e => e.id)
                 .ValueGeneratedOnAdd();

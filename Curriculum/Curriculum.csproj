@@ -8,16 +8,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.5"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.5"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.5" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     </ItemGroup>
 
@@ -26,6 +26,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="Views\Rooms\Create.cshtml" />
+      <AdditionalFiles Include="Views\Rooms\Delete.cshtml" />
+      <AdditionalFiles Include="Views\Rooms\Edit.cshtml" />
+      <AdditionalFiles Include="Views\Rooms\Index.cshtml" />
       <AdditionalFiles Include="Views\Subjects\Create.cshtml" />
       <AdditionalFiles Include="Views\Subjects\Delete.cshtml" />
       <AdditionalFiles Include="Views\Subjects\Edit.cshtml" />

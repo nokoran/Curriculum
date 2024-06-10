@@ -15,6 +15,7 @@ namespace Curriculum.Controllers
         private readonly TeacherRepository _teacherRepository;
         private readonly GroupRepository _groupRepository;
         private readonly CourseRepository _courseRepository;
+        private readonly RoomRepository _roomRepository;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ScheduleController(ScheduleRepository scheduleRepository,
@@ -22,6 +23,7 @@ namespace Curriculum.Controllers
             TeacherRepository teacherRepository,
             GroupRepository groupRepository,
             CourseRepository courseRepository,
+            RoomRepository roomRepository,
             UserManager<ApplicationUser> userManager)
         {
             _scheduleRepository = scheduleRepository;
@@ -29,6 +31,7 @@ namespace Curriculum.Controllers
             _teacherRepository = teacherRepository;
             _groupRepository = groupRepository;
             _courseRepository = courseRepository;
+            _roomRepository = roomRepository;
             _userManager = userManager;
         }
         
@@ -42,7 +45,7 @@ namespace Curriculum.Controllers
                 subject_name = _subjectRepository.GetByIdAsync(g.subject_id).GetAwaiter().GetResult().subject_name,
                 course_name = _courseRepository.GetByIdAsync(g.course_id).GetAwaiter().GetResult().course_name,
                 group_name = _groupRepository.GetByIdAsync(g.group_id).GetAwaiter().GetResult().group_name,
-                place = g.place,
+                place = Guid.TryParse(g.place, out Guid placeGuid) && _roomRepository.GetByIdAsync(placeGuid).GetAwaiter().GetResult() is Room room ? room.name : g.place,
                 teacher_name = _teacherRepository.GetByIdAsync(g.teacher_id).GetAwaiter().GetResult().full_name,
                 start_time = g.start_time,
                 end_time = g.end_time
@@ -75,8 +78,10 @@ namespace Curriculum.Controllers
         {
             var courses = _courseRepository.GetAllAsync().GetAwaiter().GetResult();
             var teachers = _teacherRepository.GetAllAsync().GetAwaiter().GetResult();
+            var rooms = _roomRepository.GetAllAsync().GetAwaiter().GetResult();
             ViewBag.Courses = courses;
             ViewBag.Teachers = teachers;
+            ViewBag.Rooms = rooms;
             return View();
         }
 
